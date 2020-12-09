@@ -6,8 +6,7 @@ import React, {
   // useEffect,
 } from "react";
 import useWebSocket, { ReadyState } from "react-use-websocket";
-import whitePiece from "../Pieces/whitePiece";
-import blackPiece from "../Pieces/blackPiece";
+import { responseMsje } from "./EventManager";
 
 export const WebSocketClient = () => {
   //Public API that will echo messages sent to it back to the client
@@ -26,85 +25,35 @@ export const WebSocketClient = () => {
     shouldReconnect: (closeEvent) => true,
     onMessage: (message) => {
       console.log("new message received: " + message.data);
-      responseMsje(message);
+      handleSend(message, sendJson(), sendMje());
       setuserList(JSON.parse(message.data).data.users_list);
       setLastData(JSON.parse(message.data));
     },
   });
 
-  // //RANDOM MOV.
-  // function getRandomIntInclusive(min, max) {
-  //   min = Math.ceil(min);
-  //   max = Math.floor(max);
-  //   let res = Math.floor(Math.random() * (max - min + 1) + min);
-  //   return res;
-  // }
+  const sendMje = (mje) => {
+    sendMessage({
+      action: mje.action,
+      data: mje.data,
+    });
+  };
 
-  //ANALIZAR BOARD
-  function analizeBoard(board) {
-    let boardArr = [];
-    let index = 0;
+  const sendJson = (mje) => {
+    sendJsonMessage({
+      action: mje.action,
+      data: {
+        board_id: mje.data.board_id,
+      },
+    });
+  };
 
-    while (index * 16 < 256) {
-      boardArr.push(board.substring(index * 16, index * 16 + 16).split(""));
-      index++;
-    }
-    return boardArr;
-  }
+  messageHistory.current = useMemo(
+    () => messageHistory.current.concat(lastMessage),
+    [lastMessage]
+  );
 
-  //REALIZAR MOVIMIENTO
-  function makeMove(actual_turn, board_id, turn_token, board) {
-    if (actual_turn === "black") {
-      const move = blackPiece(board);
-      sendJsonMessage({
-        action: "move",
-        data: {
-          board_id: board_id,
-          turn_token: turn_token,
-          from_row: move.fromR,
-          from_col: move.fromC,
-          to_row: move.toR,
-          to_col: move.toC,
-        },
-      });
-    } else {
-      const move = whitePiece(board, actual_turn);
-
-      sendJsonMessage({
-        action: "move",
-        data: {
-          board_id: board_id,
-          turn_token: turn_token,
-          from_row: move.fromR,
-          from_col: move.fromC,
-          to_row: move.toR,
-          to_col: move.toC,
-        },
-      });
-    }
-  }
-
-  //RESPONDER MENSAJE
-  const responseMsje = (message) => {
-    let recData = JSON.parse(message.data);
-    if (recData.event === "ask_challenge") {
-      sendJsonMessage({
-        action: "accept_challenge",
-        data: {
-          board_id: recData.data.board_id,
-        },
-      });
-    } else if (recData.event === "your_turn") {
-      const board = analizeBoard(recData.data.board);
-      // const move = selectPiece(board);
-
-      makeMove(
-        recData.data.actual_turn,
-        recData.data.board_id,
-        recData.data.turn_token,
-        board
-      );
-    }
+  const handleSend = (message) => {
+    responseMsje(message);
   };
 
   messageHistory.current = useMemo(
@@ -144,11 +93,11 @@ export const WebSocketClient = () => {
   );
 
   const handleClickAbort = (lastData) => {
-    console.log(lastData);
+    console.log("lastData:", lastData);
     sendMessage({
       action: "abort",
       data: {
-        board_id: lastData,
+        board_id: lastData.board_id,
       },
     });
   };
