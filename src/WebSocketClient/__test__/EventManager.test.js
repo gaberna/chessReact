@@ -1,31 +1,32 @@
 const { useEventManager } = require("../EventManager");
 import { renderHook, act } from "@testing-library/react-hooks";
 
-const getWebSocket = () => ({
+const webSocketConnection = {
   onmessage: jest.fn(),
   send: jest.fn(),
-});
+};
 
 test("Test Event manager", () => {
-  const message = {
-    event: "ask_challenge",
-    data: `{"board_id": "62796b3c-0963-4237-88b6-d852d695de78"}`,
-  };
-  const { result } = renderHook(() => useEventManager(getWebSocket));
-  const [_, websocket] = result.current;
 
+  const message = {
+    data: `{"data": {"board_id": "62796b3c-0963-4237-88b6-d852d695de78"} , "event": "ask_challenge"}`,
+  };
+  const { result } = renderHook(() => useEventManager(webSocketConnection));
+  
   act(() => {
-    websocket.onmessage(message);
+    webSocketConnection.onmessage(message);
   });
 
-  expect(result.current[0]).toEqual(message);
+  const { lastMessage } = result.current;
+  expect(lastMessage).toEqual(message);
+  
+  const response = {
+    action: "accept_challenge",
+    data: {
+        board_id: "62796b3c-0963-4237-88b6-d852d695de78",
+      },
+  };
+      
+  expect(webSocketConnection.send).toHaveBeenCalledWith(JSON.stringify(response));
 
-  // const response = {
-  //   action: "accept_challenge",
-  //   data: {
-  //     board_id: "62796b3c-0963-4237-88b6-d852d695de78",
-  //   },
-  // };
-
-  expect(websocket.send).toHaveBeenCalled();
 });

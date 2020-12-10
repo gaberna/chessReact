@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { makeMove } from "./TurnManager";
 
-export const useEventManager = (getWebSocket) => {
+export const useEventManager = (webSocketConnection) => {
   const [lastMessage, setLastMessage] = useState(null);
-  const websocket = getWebSocket();
-  if (websocket) {
-    websocket.onmessage = (message) => {
+  if (webSocketConnection) {
+    webSocketConnection.onmessage = (message) => {
       setLastMessage(message);
       console.log("new message received: " + message.data);
       let recData = JSON.parse(message.data);
@@ -16,7 +15,7 @@ export const useEventManager = (getWebSocket) => {
             board_id: recData.data.board_id,
           },
         };
-        websocket.send(JSON.stringify(msjeToSend));
+        webSocketConnection.send(JSON.stringify(msjeToSend));
       } else if (recData.event === "your_turn") {
         let moveToSend = makeMove(
           recData.data.actual_turn,
@@ -24,9 +23,9 @@ export const useEventManager = (getWebSocket) => {
           recData.data.turn_token,
           recData.data.board
         );
-        websocket.send(JSON.stringify(moveToSend));
+        webSocketConnection.send(JSON.stringify(moveToSend));
       }
     };
   }
-  return [lastMessage, websocket];
+  return { lastMessage };
 };

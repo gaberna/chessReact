@@ -1,11 +1,8 @@
 import { Piece, getFormatedPiece } from "../pieces.js";
+import Pawn from "./Pawn";
+import Queen from "./Queen";
 
-const isPawnFirstMove = (i) => {
-  let resp = (i === 12) | (i === 13) ? true : false;
-  return resp;
-};
-
-export default function whitePiece(board, actual_turn) {
+export default function getPieceMovement(board, selectedPiece, actual_turn) {
   let col_pos = "";
   let row_pos = "";
   let i = 0;
@@ -45,7 +42,6 @@ export default function whitePiece(board, actual_turn) {
         if (board[i][ii] === getFormatedPiece(Piece.QUEEN, actual_turn)) {
           col_pos = board[i].indexOf(board[i][ii]);
           row_pos = board.indexOf(board[i]);
-
           if (col_pos === 15 && row_pos === 0) {
             move.fromC = col_pos;
             move.fromR = row_pos;

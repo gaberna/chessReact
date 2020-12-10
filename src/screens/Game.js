@@ -18,7 +18,9 @@ export const Game = ({ socketUrl }) => {
     shouldReconnect: () => true,
   });
 
-  const [lastMessage] = useEventManager(getWebSocket);
+  const webSocketConnection = getWebSocket();
+
+  const { lastMessage } = useEventManager(webSocketConnection);
 
   const messageHistory = useRef([]);
   useEffect(() => {
