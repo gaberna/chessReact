@@ -21,7 +21,7 @@ export function makeMove(actual_turn, board_id, turn_token, board) {
     const move = blackPiece(interpretedBoard);
 
     moveToSend = {
-      action: "",
+      action: "move",
       data: {
         board_id: board_id,
         turn_token: turn_token,
