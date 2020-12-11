@@ -95,19 +95,25 @@ export const Game = ({ socketUrl }) => {
 
       <hr />
       <div>
-        <span>The WebSocket is currently {connectionStatus}</span>
+        <span>
+          The WebSocket is currently <h4>{connectionStatus}</h4>
+        </span>
+        <hr />
         <br />
         <span>
           {lastMessage ? (
             <span>
-              Last message: <br />
+              <h3>Last message:</h3> <br />
               {lastMessage.data}
             </span>
           ) : null}
         </span>
         <br />
+        <span>
+          <h3>History:</h3>
+        </span>{" "}
         <ul>
-          <span>History:</span> <br />
+          <br />
           {messageHistory.current.map((message, idx) => (
             <>
               <span key={idx}>{message.data}</span>
