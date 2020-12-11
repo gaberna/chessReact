@@ -1,3 +1,5 @@
+import { getFormatedPiece, Piece } from "../pieces";
+
 export function analizeBoard(board) {
   let boardArr = [];
   let index = 0;
@@ -9,43 +11,40 @@ export function analizeBoard(board) {
   return boardArr;
 }
 
-const isPawnFirstMove = (i) => {
-  let resp = (i === 12) | (i === 13) ? true : false;
-  return resp;
+export const isPawnFirstMove = (row, actual_turn) => {
+  return (
+    (actual_turn === "white" && row === 12) ||
+    row === 13 ||
+    (actual_turn === "black" && row === 2) ||
+    row === 3
+  );
 };
 
-const selectPiece = (board) => {
+export const selectPiece = (board, actual_turn) => {
   let pieceToPlay = {
     srcCol: "",
     srcRow: "",
     id: "",
   };
-
-  for (i; i <= 15; i++) {
+  for (let i = 0; i <= 15; i++) {
     if (board[i].includes(getFormatedPiece(Piece.PAWN, actual_turn))) {
-      for (ii; ii < 15; ii++) {
+      for (let ii = 0; ii < 15; ii++) {
         if (board[i][ii] === getFormatedPiece(Piece.PAWN, actual_turn)) {
-          pieceToPlay.srcCol = board[i].indexOf(board[i][ii]);
+          pieceToPlay.srcCol = ii;
           pieceToPlay.srcRow = i;
           pieceToPlay.id = getFormatedPiece(Piece.PAWN, actual_turn);
-          return;
-          // move.fromC = col_pos;
-          // move.fromR = row_pos;
-
-          // if (isPawnFirstMove(i)) {
-          //   move.toC = col_pos;
-          //   move.toR = row_pos - 2;
-          //   ii = 16;
-          //   i = 16;
-          // } else {
-          //   move.toC = col_pos;
-          //   move.toR = row_pos - 1;
-          //   ii = 16;
-          //   i = 16;
-          // }
+          return pieceToPlay;
+        }
+      }
+    } else if (board[i].includes(getFormatedPiece(Piece.QUEEN, actual_turn))) {
+      for (let ii = 0; ii < 15; ii++) {
+        if (board[i][ii] === getFormatedPiece(Piece.QUEEN, actual_turn)) {
+          pieceToPlay.srcCol = ii;
+          pieceToPlay.srcRow = i;
+          pieceToPlay.id = getFormatedPiece(Piece.QUEEN, actual_turn);
+          return pieceToPlay;
         }
       }
     }
-    return pieceToPlay;
   }
 };

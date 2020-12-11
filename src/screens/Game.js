@@ -10,14 +10,16 @@ import useWebSocket, { ReadyState } from "react-use-websocket";
 import { useEventManager } from "../WebSocketClient/EventManager";
 
 export const Game = ({ socketUrl }) => {
-  const [userList, setuserList] = useState([]);
-  const [lastData, setLastData] = useState("");
-
   // Connect to WS
-  const { sendMessage, readyState, getWebSocket } = useWebSocket(socketUrl, {
+  const {
+    sendMessage,
+    readyState,
+    getWebSocket,
+    sendJsonMessage,
+  } = useWebSocket(socketUrl, {
     shouldReconnect: () => true,
   });
-
+  const [mje, setMje] = useState("");
   const webSocketConnection = getWebSocket();
 
   const { lastMessage } = useEventManager(webSocketConnection);
@@ -26,6 +28,7 @@ export const Game = ({ socketUrl }) => {
   useEffect(() => {
     if (lastMessage) {
       messageHistory.current = [lastMessage, ...messageHistory.current];
+      setMje(JSON.parse(lastMessage.data));
     }
   }, [lastMessage]);
 
@@ -52,15 +55,17 @@ export const Game = ({ socketUrl }) => {
     )
   );
 
-  const handleClickAbort = (lastData) => {
-    console.log("lastData:", lastData);
-    sendMessage({
-      action: "abort",
-      data: {
-        board_id: lastData.board_id,
-      },
-    });
-  };
+  const handleClickAbort = useCallback(
+    () => (
+      sendJsonMessage({
+        action: "abort",
+        data: {
+          board_id: mje?.data.board_id,
+        },
+      }),
+      []
+    )
+  );
 
   const connectionStatus = {
     [ReadyState.CONNECTING]: "Connecting",
@@ -72,7 +77,6 @@ export const Game = ({ socketUrl }) => {
 
   return (
     <div>
-      {console.log(userList)}
       <button
         onClick={handleClickSendMessage}
         disabled={readyState !== ReadyState.OPEN}
@@ -86,7 +90,7 @@ export const Game = ({ socketUrl }) => {
         CHALLENGUE User
       </button>
       <button
-        onClick={handleClickAbort(lastData)}
+        onClick={handleClickAbort}
         disabled={readyState !== ReadyState.OPEN}
       >
         Abort!
