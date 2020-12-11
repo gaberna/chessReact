@@ -8,7 +8,7 @@ const PieceMovements = {
   },
   [Piece.QUEEN]: {
     vertical: 1,
-    horizontal: 0,
+    horizontal: 1,
   },
 };
 
