@@ -4,11 +4,12 @@ To run application ->
 
 ## Clone repository:
 
-$ git clone <repo-url>
+$ git clone <https://github.com/gaberna/chessReact.git>
 
 ## Install npm modules:
 
-$ npm i / yarn
+### `npm i`
+### `yarn`
 
 ## Run app!
 
