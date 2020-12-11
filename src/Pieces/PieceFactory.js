@@ -76,32 +76,3 @@ export const selectPiece = (board, actual_turn) => {
     }
   }
 };
-
-// export const selectPiece = (board, actual_turn) => {
-//   let pieceToPlay = {
-//     srcCol: "",
-//     srcRow: "",
-//     id: "",
-//   };
-//   for (let i = 0; i <= 15; i++) {
-//     if (board[i].includes(getFormatedPiece(Piece.PAWN, actual_turn))) {
-//       for (let ii = 0; ii < 15; ii++) {
-//         if (board[i][ii] === getFormatedPiece(Piece.PAWN, actual_turn)) {
-//           pieceToPlay.srcCol = ii;
-//           pieceToPlay.srcRow = i;
-//           pieceToPlay.id = getFormatedPiece(Piece.PAWN, actual_turn);
-//           return pieceToPlay;
-//         }
-//       }
-//     } else if (board[i].includes(getFormatedPiece(Piece.QUEEN, actual_turn))) {
-//       for (let ii = 0; ii < 15; ii++) {
-//         if (board[i][ii] === getFormatedPiece(Piece.QUEEN, actual_turn)) {
-//           pieceToPlay.srcCol = ii;
-//           pieceToPlay.srcRow = i;
-//           pieceToPlay.id = getFormatedPiece(Piece.QUEEN, actual_turn);
-//           return pieceToPlay;
-//         }
-//       }
-//     }
-//   }
-// };

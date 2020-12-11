@@ -1,7 +1,6 @@
 import React, {
   useState,
   useCallback,
-  useMemo,
   useRef,
   useEffect,
   // useEffect,
@@ -11,15 +10,15 @@ import { useEventManager } from "../WebSocketClient/EventManager";
 
 export const Game = ({ socketUrl }) => {
   // Connect to WS
-  const {
-    sendMessage,
-    readyState,
-    getWebSocket,
-    sendJsonMessage,
-  } = useWebSocket(socketUrl, {
-    shouldReconnect: () => true,
-  });
+  const { readyState, getWebSocket, sendJsonMessage } = useWebSocket(
+    socketUrl,
+    {
+      shouldReconnect: () => true,
+    }
+  );
+
   const [mje, setMje] = useState("");
+
   const webSocketConnection = getWebSocket();
 
   const { lastMessage } = useEventManager(webSocketConnection);
@@ -34,7 +33,7 @@ export const Game = ({ socketUrl }) => {
 
   const handleClickSendMessage = useCallback(
     () => (
-      sendMessage({
+      sendJsonMessage({
         action: "login",
         data: {},
       }),
@@ -44,7 +43,7 @@ export const Game = ({ socketUrl }) => {
 
   const handleClickChallengue = useCallback(
     () => (
-      sendMessage({
+      sendJsonMessage({
         action: "challenge",
         data: {
           username: "gaberna",
@@ -76,7 +75,7 @@ export const Game = ({ socketUrl }) => {
   }[readyState];
 
   return (
-    <div>
+    <div className="App">
       <button
         onClick={handleClickSendMessage}
         disabled={readyState !== ReadyState.OPEN}

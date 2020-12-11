@@ -1,8 +1,6 @@
-import blackPiece from "../Pieces/blackPiece";
 import getPieceMovement from "../Pieces/PieceMovement";
 import { analizeBoard, selectPiece } from "../Pieces/PieceFactory";
 
-//REALIZAR MOVIMIENTO
 let moveToSend = {
   action: "",
   data: {
