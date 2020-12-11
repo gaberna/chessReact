@@ -1,4 +1,4 @@
-import { Piece, getFormatedPiece } from "../pieces.js";
+import { Piece } from "../pieces.js";
 import { isPawnFirstMove } from "./PieceFactory.js";
 
 const PieceMovements = {
@@ -17,7 +17,7 @@ const MovementsByTurn = {
   white: -1,
 };
 
-export default function getPieceMovement(board, selectedPiece, actual_turn) {
+export default function getPieceMovement(selectedPiece, actual_turn) {
   const { id } = selectedPiece;
 
   const movements = PieceMovements[id.toLowerCase()];

@@ -16,7 +16,7 @@ let moveToSend = {
 export function makeMove(actual_turn, board_id, turn_token, board) {
   let interpretedBoard = analizeBoard(board);
   let selectedPiece = selectPiece(interpretedBoard, actual_turn);
-  const move = getPieceMovement(interpretedBoard, selectedPiece, actual_turn);
+  const move = getPieceMovement(selectedPiece, actual_turn);
   debugger;
   moveToSend = {
     action: "move",
