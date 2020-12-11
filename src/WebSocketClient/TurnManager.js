@@ -1,5 +1,5 @@
 import getPieceMovement from "../Pieces/PieceMovement";
-import { analizeBoard, selectPiece } from "../Pieces/PieceFactory";
+import { analizeBoard, selectPiece } from "../Pieces/PieceSelectionManager";
 
 let moveToSend = {
   action: "",
@@ -13,6 +13,7 @@ let moveToSend = {
   },
 };
 
+// Fills an object to send next move.
 export function makeMove(actual_turn, board_id, turn_token, board) {
   let interpretedBoard = analizeBoard(board);
   let selectedPiece = selectPiece(interpretedBoard, actual_turn);

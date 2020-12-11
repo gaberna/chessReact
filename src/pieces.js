@@ -7,6 +7,7 @@ export const Piece = {
   KING: "k",
 };
 
+// Obtains de correct turn piece depending the turn minus-MAYUS
 export function getFormatedPiece(piece, turn) {
   let isBlack = turn === "black";
   switch (piece) {

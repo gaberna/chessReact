@@ -1,6 +1,7 @@
 import "./App.css";
 import { Game } from "./screens/Game";
 
+// Constant to sve WS url
 const Constants = {
   socketUrl:
     "ws://megachess.herokuapp.com/service?authtoken=b12fdd43-930d-4f8d-8f41-24cdae62ba85",

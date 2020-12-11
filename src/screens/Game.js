@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useCallback,
-  useRef,
-  useEffect,
-  // useEffect,
-} from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import useWebSocket, { ReadyState } from "react-use-websocket";
 import { useEventManager } from "../WebSocketClient/EventManager";
 
@@ -23,6 +17,7 @@ export const Game = ({ socketUrl }) => {
 
   const { lastMessage } = useEventManager(webSocketConnection);
 
+  // Log  recieved message history
   const messageHistory = useRef([]);
   useEffect(() => {
     if (lastMessage) {
@@ -31,6 +26,7 @@ export const Game = ({ socketUrl }) => {
     }
   }, [lastMessage]);
 
+  // Login action
   const handleClickSendMessage = useCallback(
     () => (
       sendJsonMessage({
@@ -41,6 +37,7 @@ export const Game = ({ socketUrl }) => {
     )
   );
 
+  // Challenge action
   const handleClickChallengue = useCallback(
     () => (
       sendJsonMessage({
@@ -54,6 +51,7 @@ export const Game = ({ socketUrl }) => {
     )
   );
 
+  // Abort action
   const handleClickAbort = useCallback(
     () => (
       sendJsonMessage({

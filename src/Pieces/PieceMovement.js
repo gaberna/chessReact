@@ -1,5 +1,5 @@
 import { Piece } from "../pieces.js";
-import { isPawnFirstMove } from "./PieceFactory.js";
+import { isPawnFirstMove } from "./PieceSelectionManager.js";
 
 const PieceMovements = {
   [Piece.PAWN]: {
@@ -17,6 +17,7 @@ const MovementsByTurn = {
   white: -1,
 };
 
+// Defines next movement
 export default function getPieceMovement(selectedPiece, actual_turn) {
   const { id } = selectedPiece;
 

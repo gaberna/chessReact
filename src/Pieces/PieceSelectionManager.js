@@ -1,5 +1,6 @@
 import { getFormatedPiece, Piece } from "../pieces";
 
+// Analize game board and returns a navegable array.
 export function analizeBoard(board) {
   let boardArr = [];
   let index = 0;
@@ -11,6 +12,7 @@ export function analizeBoard(board) {
   return boardArr;
 }
 
+// Checks pawn position
 export const isPawnFirstMove = (row, actual_turn) => {
   return (
     (actual_turn === "white" && row === 12) ||
@@ -20,6 +22,7 @@ export const isPawnFirstMove = (row, actual_turn) => {
   );
 };
 
+// Selects the pawn or queen nearest to enemy side.
 export const selectPiece = (board, actual_turn) => {
   let pieceToPlay = {
     srcCol: "",
